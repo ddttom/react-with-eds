@@ -1,6 +1,6 @@
-# React with Edge Delivery Services
+# React Slide Builder (with Edge Delivery Services)
 
-A React.js application that integrates with Adobe Edge Delivery Services, featuring a dynamic slide gallery with interactive panels.
+This project is a React slide builder application that integrates with Adobe Edge Delivery Services. It fetches slide content dynamically and provides an interactive slide gallery with modal panels for detailed slide content.
 
 ## Features
 
@@ -36,8 +36,53 @@ To maintain security:
 - npm (v6 or higher)
 - Access to an Edge Delivery Services instance
 
-## Getting Started
+## Project Structure
 
+The project is organized as follows:
+
+- **public/** – Contains static assets (e.g. slides.html) and the production build (index.html, static/*).
+- **src/** – Contains the React application source:
+  - **App.jsx** – The root component (handles loading, error states, and fetching slide data).
+  - **index.jsx** – Entry point (mounts the React app).
+  – **config.js** – Configuration (e.g. baseUrl for API endpoints) for development and production.
+  – **components/** – React components (SlideBuilder, SlideItem, SlidePanel) (using .jsx).
+  – **styles/** – Modular CSS files (SlideBuilder.css, SlideItem.css, SlidePanel.css).
+  – **tests/** – Dedicated test directory (e.g. App.test.jsx, SlideBuilder.test.jsx, SlideItem.test.jsx, SlidePanel.test.jsx).
+- **package.json** – Dependencies, scripts (start, build, test, lint, etc.) and proxy (for local development).
+- **README.md** – This file.
+
+## Development
+
+- **Installation:**  
+  Clone the repo and install dependencies:
+  ```bash
+  git clone https://github.com/ddttom/react-with-eds.git
+  cd react-with-eds
+  npm install
+  ```
+- **Development Mode:**  
+  Run `npm start` (or `react-scripts start`) to launch the app (with hot reloading) at [http://localhost:3000](http://localhost:3000). (API requests are proxied via package.json's "proxy" setting.)
+- **Production Build:**  
+  Run `npm run build` (or `react-scripts build`) to generate an optimized production build (in the build/ folder).  
+- **Linting:**  
+  Run `npm run lint` (or `eslint src/**/*.{js,jsx}`) to check code quality. (Use `npm run lint:fix` to automatically fix issues.)
+
+## Testing
+
+- **Test Suite:**  
+  Tests are located in the `src/tests/` directory (e.g. App.test.jsx, SlideBuilder.test.jsx, SlideItem.test.jsx, SlidePanel.test.jsx).  
+- **Running Tests:**  
+  Run `npm test` (or `react-scripts test`) to execute the test suite (in watch mode).  
+- **Current Status:**  
+  All tests pass (green suite) – the test suite is up to date and reflects the current project structure and modern React practices (using .jsx).
+
+## Deployment (Edge Delivery Services Integration)
+
+- **Production Build:**  
+  Run `npm run build` (or `react-scripts build`) to generate a production build (in the build/ folder).  
+- **Deploying:**  
+  Copy the contents of the build folder (e.g. index.html, static/*) into your Edge Delivery Services repository (e.g. into a "slides" folder or as a block).  
+- **Configuration:**  
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/react-with-eds.git
@@ -64,12 +109,17 @@ The application will be available at http://localhost:3000
 - Requests use relative paths (e.g., `/slides/query-index.json`)
 - The proxy handles forwarding to the full URL
 - Avoids CORS issues during local development
+- Hot reloading enabled for instant feedback
+- Development tools and detailed error messages available
 
 ### Production Mode
 - Uses direct relative paths
 - No proxy configuration
 - Deployed to the same domain as the Edge Delivery Services instance
 - Requests go directly to the server
+- Optimized and minified code
+- Development tools removed
+- Better performance
 
 ## Available Scripts
 
@@ -87,9 +137,26 @@ The application will be available at http://localhost:3000
 │   └── slides.html     # Production entry point
 ├── src/
 │   ├── components/     # React components
+│   │   ├── SlideBuilder.jsx  # Main slide container component
+│   │   ├── SlideItem.jsx     # Individual slide component
+│   │   └── SlidePanel.jsx    # Modal panel component
+│   ├── styles/         # Component-specific styles
+│   │   ├── SlideBuilder.css
+│   │   ├── SlideItem.css
+│   │   └── SlidePanel.css
+│   ├── tests/          # Test files
+│   │   ├── components/       # Component tests
+│   │   │   ├── SlideBuilder.test.jsx
+│   │   │   ├── SlideItem.test.jsx
+│   │   │   └── SlidePanel.test.jsx
+│   │   └── App.test.jsx     # Application tests
 │   ├── config.js       # Environment configuration
 │   ├── App.jsx         # Main application component
-│   └── index.js        # Application entry point
+│   └── index.jsx       # Application entry point
+├── blocks/             # Edge Delivery Services blocks
+│   └── react-slide-builder/
+│       ├── react-slide-builder.js
+│       └── react-slide-builder.css
 ├── config-overrides.js # Custom webpack configuration
 └── package.json        # Project configuration
 ```
@@ -102,6 +169,9 @@ The application uses a custom webpack configuration to optimize the build proces
 - No license file generation in production builds
 - Optimized asset loading
 - Development proxy for local testing
+- JSX syntax support
+- Modern JavaScript features enabled
+- CSS modules support
 
 This is configured in `config-overrides.js` using `react-app-rewired` and `customize-cra`.
 
@@ -115,8 +185,12 @@ The application uses different URL configurations for development and production
 This is handled in `src/config.js`:
 ```javascript
 const config = {
-  baseUrl: '', // Empty string for relative paths in both environments
+  // Empty string for relative paths in both environments
+  // In development: The proxy in package.json handles the base URL
+  baseUrl: '',
 };
+
+export default config;
 ```
 
 ## Deployment
@@ -132,10 +206,35 @@ npm run build
 
 ## Testing
 
-The application includes a comprehensive test suite using Jest and React Testing Library:
+The application includes a comprehensive test suite using Jest and React Testing Library. Tests are organized in a dedicated `src/tests` directory:
 
 ```bash
 npm test
+```
+
+### Test Organization
+- `src/tests/components/` - Component-specific tests
+  - `SlideBuilder.test.jsx` - Tests for the main slide container
+  - `SlideItem.test.jsx` - Tests for individual slide components
+  - `SlidePanel.test.jsx` - Tests for the modal panel
+- `src/tests/App.test.jsx` - Application-level tests
+
+### Test Coverage
+- Component rendering
+- User interactions
+- State management
+- Props handling
+- Async operations
+- Error scenarios
+
+Run tests in watch mode:
+```bash
+npm test
+```
+
+Generate coverage report:
+```bash
+npm test -- --coverage
 ```
 
 ## Contributing
