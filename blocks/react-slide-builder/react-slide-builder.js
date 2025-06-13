@@ -8,7 +8,7 @@ export default function decorate(block) {
     // Load React bundle
   
     const script = document.createElement('script');
-    script.src = '/static/js/main.chunk.js'; // Your built JS file
+    script.src = '/static/js/slide-builder-main.js'; 
     script.type = 'module';
   
     document.head.appendChild(script);
@@ -19,7 +19,7 @@ export default function decorate(block) {
   
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/static/css/main.chunk.css'; // Your built CSS file
+    link.href = '/static/css/slide-builder-main.css'; // Your built CSS file
     document.head.appendChild(link);
   }
   
