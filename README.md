@@ -2,6 +2,8 @@
 
 This project is a React slide builder application that integrates with Adobe Edge Delivery Services. It fetches slide content dynamically and provides an interactive slide gallery with modal panels for detailed slide content.
 
+
+
 ## Features
 
 - Responsive slide gallery with dynamic image loading
@@ -249,3 +251,19 @@ npm test -- --coverage
 
 For expert guidance on React.js applications or Edge Delivery Services integration, contact:
 [info@digitaldomaintechnologies.com](mailto:info@digitaldomaintechnologies.com)
+
+## HTML Entry Points
+
+The project uses two HTML files for different purposes:
+
+1. `public/index.html` - Development Entry Point
+   - Used when running `npm start`
+   - Serves the React app at `http://localhost:3000`
+   - Contains development-specific settings
+
+2. `public/slides.html` - Production Entry Point
+   - Used as the template for production builds
+   - Gets copied to your blog's directory as `slides.html` during deployment
+   - Contains production-optimized settings
+
+When you run `npm run build`, the build process uses `slides.html` as the template to create the production files. This separation allows for different configurations between development and production environments while maintaining a clean deployment process.

@@ -91,23 +91,70 @@ Organise your project with clear separation of concerns:
 
 `/react-with-eds`  
 `├── public/`  
-`│   └── slides.html`  
+`│   ├── index.html      # Development entry point`  
+`│   └── slides.html     # Production entry point`  
 `├── src/`  
-`│   ├── App.js`  
-`│   ├── App.css`  
-`│   ├── index.js`  
-`│   ├── components/`  
-`│   │   ├── SlideBuilder.js`  
-`│   │   ├── SlideItem.js`  
-`│   │   └── SlidePanel.js`  
-`│   └── styles/`  
-`│       ├── SlideBuilder.css`  
-`│       ├── SlideItem.css`  
-`│       └── SlidePanel.css`  
-`├── package.json`  
-`└── README.md`
+`│   ├── components/     # React components`  
+`│   │   ├── SlideBuilder.jsx  # Main slide container component`  
+`│   │   ├── SlideItem.jsx     # Individual slide component`  
+`│   │   └── SlidePanel.jsx    # Modal panel component`  
+`│   ├── styles/         # Component-specific styles`  
+`│   │   ├── SlideBuilder.css`  
+`│   │   ├── SlideItem.css`  
+`│   │   └── SlidePanel.css`  
+`│   ├── tests/          # Test files`  
+`│   │   ├── components/       # Component tests`  
+`│   │   │   ├── SlideBuilder.test.jsx`  
+`│   │   │   ├── SlideItem.test.jsx`  
+`│   │   │   └── SlidePanel.test.jsx`  
+`│   │   └── App.test.jsx     # Application tests`  
+`│   ├── config.js       # Environment configuration`  
+`│   ├── App.jsx         # Main application component`  
+`│   └── index.jsx       # Application entry point`  
+`├── blocks/             # Edge Delivery Services blocks`  
+`│   └── react-slide-builder/`  
+`│       ├── react-slide-builder.js`  
+`│       └── react-slide-builder.css`  
+`├── config-overrides.js # Custom webpack configuration`  
+`└── package.json        # Project configuration`
 
 ## Project Setup and Configuration
+
+### HTML Entry Points
+
+The project uses two HTML files to handle different environments:
+
+1. `public/index.html` \- Development Entry Point  
+     
+   - Used when running `npm start`  
+   - Serves the React app at `http://localhost:3000`  
+   - Contains development-specific settings and metadata  
+   - Enables hot reloading and development tools
+
+   
+
+2. `public/slides.html` \- Production Entry Point  
+     
+   - Used as the template for production builds  
+   - Gets copied to your blog's directory as `slides.html` during deployment  
+   - Contains production-optimized settings  
+   - Includes only necessary metadata for Edge Delivery Services
+
+When you run `npm run build`, the build process:
+
+1. Uses `slides.html` as the template  
+2. Creates optimized production files in the `build` directory  
+3. These files then get copied to your blog's directory using the deployment commands:
+
+\# Copy assets
+
+cp \-r ../react-with-eds/build/static/\* ./static/
+
+cp ../react-with-eds/build/index.html ./slides.html
+
+This separation allows for different configurations between development and production environments while maintaining a clean deployment process. The development environment gets all the benefits of hot reloading and development tools, while the production build is optimized for Edge Delivery Services deployment.
+
+### Environment setup
 
 To handle different environments (development vs production), we use a configuration file:
 
@@ -594,7 +641,7 @@ We have modified the standard React index.jsx to check for the block container:
 `import React from 'react';`  
 `import ReactDOM from 'react-dom/client';`  
 `import './index.css';`  
-`import App from './App.jsx';`
+`import App from './app.jsx';`
 
 `const mountPoint = document.getElementById('react-slide-app') || document.getElementById('root');`
 
