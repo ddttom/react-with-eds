@@ -8,7 +8,8 @@ A React.js application that integrates with Adobe Edge Delivery Services, featur
 - Interactive modal panels for detailed content
 - Seamless integration with Edge Delivery Services
 - Development proxy for local testing
-- Production-ready build configuration
+- Production-ready build configuration with non-hashed filenames
+- No license file generation in production builds
 - Compliance with Edge Delivery Services security policy
 
 ## Security Considerations
@@ -89,8 +90,20 @@ The application will be available at http://localhost:3000
 │   ├── config.js       # Environment configuration
 │   ├── App.jsx         # Main application component
 │   └── index.js        # Application entry point
+├── config-overrides.js # Custom webpack configuration
 └── package.json        # Project configuration
 ```
+
+## Build Configuration
+
+The application uses a custom webpack configuration to optimize the build process:
+
+- Non-hashed filenames for easier integration (`slide-builder-main.js` and `slide-builder-main.css`)
+- No license file generation in production builds
+- Optimized asset loading
+- Development proxy for local testing
+
+This is configured in `config-overrides.js` using `react-app-rewired` and `customize-cra`.
 
 ## Configuration
 
